@@ -11,4 +11,6 @@ sudo apt-get install docker.io
       registry-mirrors:["https://2iu94llq.mirror.aliyuncs.com","http://18ec2e74.m.daocloud.io"]                                                                        
     }
 
+3.重启docker服务
 
+service docker restart
