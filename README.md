@@ -14,3 +14,11 @@ sudo apt-get install docker.io
 3.重启docker服务
 
 service docker restart
+
+4.增加user到docker用户组中
+
+sudo groupadd docker
+sudo gpasswd -a cuijun docker
+sudo service docker restart
+
+重启会话
