@@ -1,13 +1,10 @@
-FROM ubuntu
+FROM fedeg/python-vim
 
 MAINTAINER cui jun "1006536507@qq.com"
 
 COPY ./requirements.txt ~/
-COPY ./vimrc ~/
 
-RUN apt-get update ;\
-    apt-get install python ;\
-    apt-get install vim ;\
+RUN apt-get install python ;\
     apt-get install python-pip ;\
     pip install -U pip ;\
     cd ~/ ;\
@@ -15,5 +12,4 @@ RUN apt-get update ;\
     cd src ;\
     mv ~/requirements.txt ./requirements.txt
     pip install -r requirements.txt
-    mv ~/vimrc ~/.vimrc 
     
