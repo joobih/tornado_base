@@ -1,32 +1,13 @@
 #!/usr/bin/env python
 # coding=utf-8
+
+import os
 import pika
 import time
+import multiprocessing
+import ConfigParser
 
-#credentials = pika.PlainCredentials('admin', 'admin')
-# 链接rabbit
-#connection = pika.BlockingConnection(pika.ConnectionParameters('localhost',5672))
-# 创建频道
-#channel = connection.channel()
-#channel.basic_qos(prefetch_count=1)
-
-# 如果生产者没有运行创建队列，那么消费者创建队列
-#channel.queue_declare(queue='url_queue5',durable = True)
-#channel.basic_qos(1)
-
-
-#def callback(ch, method, properties, body):
-#    print(" [x] Received %r" % body)
-#    time.sleep(0.5)
-#    ch.basic_ack(delivery_tag=method.delivery_tag)  # 主要使用此代码
-
-#channel.basic_consume(callback,
-#                      queue='url_queue')
-#                      no_ack=False)
-
-#print(' [*] Waiting for messages. To exit press CTRL+C')
-#channel.start_consuming()
-
+#rabbitmq 消费者
 class RQConsumer():
     def __init__(self,host,port,queue):
         #连接rabbit
@@ -39,19 +20,44 @@ class RQConsumer():
 
     #接收消息的回调函数
     def callback(self,ch,method,properties,body):
-        print "recive the message"
+        print("Process is running at pid %s" % os.getpid())
         print(body)
-#        time.sleep(0.5)
+        time.sleep(1)
         ch.basic_ack(delivery_tag = method.delivery_tag)
+        #在此处理每条消息
     
     def start(self):
-        def callback(ch,method,properties,body):
-            print body
-            ch.basic_ack(delivery_tag = method.delivery_tag)
         print "start consumer..."
-        self.channel.basic_consume(callback,queue = self.queue)
+        self.channel.basic_consume(self.callback,queue = self.queue)
         self.channel.start_consuming()
 
-if __name__ == "__main__":
-    consumer = RQConsumer("127.0.0.1",5672,"url_queue5")
+def TestConsumer(conf):
+    host = conf.get("rabbitmq","host")
+    port = conf.getint("rabbitmq","port")
+    queue = conf.get("rabbitmq","queue")
+    consumer = RQConsumer(host,port,queue)
     consumer.start()
+
+def multi_consumer(conf,process_num = 0):
+    p = multiprocessing.cpu_count()
+    if process_num != 0:
+        p = process_num
+    pool = multiprocessing.Pool(processes = p)
+    for i in xrange(p):
+        pool.apply_async(TestConsumer,(conf,))
+    pool.close()
+    pool.join()
+    print "done"
+
+if __name__ == "__main__":
+#    p = multiprocessing.cpu_count()
+#    print "CPU is:",p
+#    pool = multiprocessing.Pool(processes = p)
+    conf = ConfigParser.ConfigParser()
+    conf.read("setting.conf")
+    multi_consumer(conf)
+#    for i in xrange(p):
+#        pool.apply_async(TestConsumer,(conf,))
+#    pool.close()
+#    pool.join()
+#    print "done"

@@ -2,24 +2,32 @@
 # coding=utf-8
 
 import pika
-# ######################### 生产者 #########################
-#链接rabbit服务器（localhost是本机，如果是其他服务器请修改为ip地址）
-connection = pika.BlockingConnection(pika.ConnectionParameters('127.0.0.1',5672))
-#创建频道
-channel = connection.channel()
-# 声明消息队列，消息将在这个队列中进行传递。如果将消息发送到不存在的队列，rabbitmq将会自动清除这些消息。如果队列不存在，则创建
-channel.queue_declare(queue='url_queue5',durable = True)
-#exchange -- 它使我们能够确切地指定消息应该到哪个队列去。
-#向队列插入数值 routing_key是队列名 body是要插入的内容
+import ConfigParser
 
-for i in range(0,40):
-    channel.basic_publish(exchange='',
-                  routing_key='url_queue',
-                  body='Hello World!{}'.format(i),
-#                  properties = pika.BasicProperties(
-#                      delivery_mode = 2,)
-    )
-    
-print("开始队列")
-#缓冲区已经flush而且消息已经确认发送到了RabbitMQ中，关闭链接
-connection.close()
+#rabbitmq 生产者
+class MyProduct():
+    def __init__(self,host,port,queue):
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host,int(port)))
+        self.channel = connection.channel()
+        self.channel.queue_declare(queue = queue,durable = True)
+        self.queue = queue
+
+    def product(self,message):
+        self.channel.basic_publish(exchange = '',routing_key = self.queue,body = message)
+
+    def close(self):
+        self.channel.close()
+
+
+if __name__ == "__main__":
+    conf = ConfigParser.ConfigParser()
+    conf.read("setting.conf")
+    host = conf.get("rabbitmq","host")
+    port = conf.getint("rabbitmq","port")
+    queue = conf.get("rabbitmq","queue")
+#    product = MyProduct("127.0.0.1",5672,"url_queue5")
+    product = MyProduct(host,port,queue)
+    for i in range(0,100):
+        message = "I send a msg:int{}".format(i)
+        product.product(message)
+    product.close()
