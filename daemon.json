@@ -1,0 +1,6 @@
+{                                  
+    "registry-mirrors": [    
+        "http://18ec2e74.m.daocloud.io"    
+    ],                     
+    "insecure-registries": []    
+}
