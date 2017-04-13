@@ -15,6 +15,12 @@ sudo pip install tornado
 sudo pip install thrift
 sudo pip install pika
 
+#安装pyhs2
+sudo apt-get install libsasl2-dev
+sudo apt-get install libsasl2-modules-gssapi-mit
+sudo pip install pyhs2
+
+
 #安装docker
 sudo apt-get install docker.io
 sudo cp ./daemon.json /etc/docker/daemon.json

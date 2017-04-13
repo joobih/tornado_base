@@ -23,6 +23,7 @@ class RQConsumer():
         print("Process is running at pid %s" % os.getpid())
         print(body)
         time.sleep(1)
+        #消息处理完成可以通知到队列完成了处理
         ch.basic_ack(delivery_tag = method.delivery_tag)
         #在此处理每条消息
     
@@ -31,20 +32,20 @@ class RQConsumer():
         self.channel.basic_consume(self.callback,queue = self.queue)
         self.channel.start_consuming()
 
-def TestConsumer(conf):
+def TestConsumer(conf,Consumer):
     host = conf.get("rabbitmq","host")
     port = conf.getint("rabbitmq","port")
     queue = conf.get("rabbitmq","queue")
-    consumer = RQConsumer(host,port,queue)
+    consumer = Consumer(host,port,queue)
     consumer.start()
 
-def multi_consumer(conf,process_num = 0):
+def multi_consumer(conf,Consumer,process_num = 0):
     p = multiprocessing.cpu_count()
     if process_num != 0:
         p = process_num
     pool = multiprocessing.Pool(processes = p)
     for i in xrange(p):
-        pool.apply_async(TestConsumer,(conf,))
+        pool.apply_async(TestConsumer,(conf,Consumer))
     pool.close()
     pool.join()
     print "done"
@@ -55,7 +56,7 @@ if __name__ == "__main__":
 #    pool = multiprocessing.Pool(processes = p)
     conf = ConfigParser.ConfigParser()
     conf.read("setting.conf")
-    multi_consumer(conf)
+    multi_consumer(conf,RQConsumer)
 #    for i in xrange(p):
 #        pool.apply_async(TestConsumer,(conf,))
 #    pool.close()
