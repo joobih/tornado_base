@@ -5,7 +5,7 @@ print_usage()
 }
 case "$1" in
     start)
-        python rb_consumer.py&
+        python rb_consumer.py
         ;;
     stop)
         ps aux|grep "python rb_consumer.py" | grep -v grep | awk '{print $2}' | xargs kill -9

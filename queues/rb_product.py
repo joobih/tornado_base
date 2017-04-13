@@ -27,9 +27,12 @@ if __name__ == "__main__":
     queue = conf.get("rabbitmq","queue")
 #    product = MyProduct("127.0.0.1",5672,"url_queue5")
     product = MyProduct(host,port,queue)
-    for i in range(0,100):
-        message = {"id":i,"name":"cuijun","org":"org1"}
-        message = json.dumps(message)
+    message = {"url":"http://finance.sina.com.cn/china/gncj/2017-04-13/doc-ifyeimqc3353066.shtml"}
+    message = json.dumps(message)
+    product.product(message)
+#    for i in range(0,100*100*10):
+#        message = {"id":i,"name":"cuijun","org":"org1"}
+#        message = json.dumps(message)
 #        message = "I send a msg:int{}".format(i)
-        product.product(message)
-    product.close()
+#        product.product(message)
+#    product.close()

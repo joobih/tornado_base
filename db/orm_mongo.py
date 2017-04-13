@@ -10,6 +10,7 @@ import time
 
     {
         url             String,         --url网页地址
+        is_over         Integer,        --是否抓去过的url ,-1 -- 未被抓取； 0 -- 已经抓取完成
         content         String,         --新闻内容
         title           String,         --新闻标题
         submit_time     String,         --发表日期
@@ -64,16 +65,16 @@ class MyMongoDB():
     def update(self,condition,sets):
         try:
             #upsert表示没找到就插入，multi 表示匹配了多条就多条更改
-            self.collection.update(condition,sets,upsert=true,multi=true)
+            self.collection.update(condition,sets,upsert=True,multi=True)
             return 0
         except Exception,e:
             print "update occure a Exception:{}".format(e)
             return -1001
 
-mongo = MyMongoDB("127.0.0.1",27017,"test","urls")
-for i in range(0,1000):
-    id = i
-    name = "cuijun"
-    data = {"id":id,"name":name,"date":datetime.now(),"time_stamp":time.time()}
-    mongo.insert(data)
+#mongo = MyMongoDB("127.0.0.1",27017,"test","urls")
+#for i in range(0,1000):
+#    id = i
+#    name = "cuijun"
+#    data = {"id":id,"name":name,"date":datetime.now(),"time_stamp":time.time()}
+#    mongo.insert(data)
 
