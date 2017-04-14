@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 # coding=utf-8
 
+import sys
+sys.path.append("../db")
 import pika
 import ConfigParser
 import json
+from orm_mongo import MyMongoDB
 #rabbitmq 生产者
 class RQProduct():
     def __init__(self,host,port,queue):

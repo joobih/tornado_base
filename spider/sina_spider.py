@@ -9,19 +9,27 @@ class SinaSpider(object):
         self.url = url
 
     def parser_content(self,html):
-        bs = BeautifulSoup(html,"html.parser")
-        title = bs.find_all(id = "artibodyTitle")
-        if not title:
-            return {}
-        title = title[0]
-        title = title.text
-        print title 
+        try:
+            bs = BeautifulSoup(html,"html.parser")
+            title = bs.find_all(id = "artibodyTitle")
+            if not title:
+                return {}
+            title = title[0]
+            title = title.text
+            print title 
 
-        data = {
-            "url":self.url,
-            "title":title
-        }
-        return data
+            data = {
+                "url":self.url,
+                "title":title,
+                "is_over":0
+            }
+            return data
+        except Exception,e:
+            data = {
+                "url":self.url,
+                "is_over":-2
+            }
+            return data
 
     def get_html(self):
         print self.url

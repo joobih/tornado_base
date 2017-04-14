@@ -10,7 +10,7 @@ import time
 
     {
         url             String,         --url网页地址
-        is_over         Integer,        --是否抓去过的url ,-1 -- 未被抓取； 0 -- 已经抓取完成
+        is_over         Integer,        --是否抓去过的url ,-1 -- 未被抓取； 0 -- 已经抓取完成; -2 -- url不是新闻地址 
         content         String,         --新闻内容
         title           String,         --新闻标题
         submit_time     String,         --发表日期

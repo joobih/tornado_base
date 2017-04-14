@@ -41,7 +41,8 @@ class RQConsumer():
             url = urls["url"]
             spider = SinaSpider(url)
             data = spider.get_html()
-            self.db.update({"url":url},{"$set":{"title":data["title"],"date":datetime.now()},"is_over":0})
+            data["date"] = datetime.now()
+            self.db.update({"url":url},{"$set":data})#{"title":data["title"],"date":datetime.now()},"is_over":0})
             print data
             #消息处理完成可以通知到队列完成了处理
             ch.basic_ack(delivery_tag = method.delivery_tag)
@@ -50,17 +51,14 @@ class RQConsumer():
         except Exception,e:
             print "occure a Exception:{}".format(e)
     
-    def start(self):
+    def start(self,_call_back):
         print "start consumer..."
-        self.channel.basic_consume(self.callback,queue = self.queue)
+        self.channel.basic_consume(_call_back,queue = self.queue)
         self.channel.start_consuming()
 
 def TestConsumer(conf,Consumer):
-    host = conf.get("rabbitmq","host")
-    port = conf.getint("rabbitmq","port")
-    queue = conf.get("rabbitmq","queue")
     consumer = Consumer(conf)
-    consumer.start()
+    consumer.start(consumer.callback)
 
 def multi_consumer(conf,Consumer,process_num = 0):
     p = multiprocessing.cpu_count()
