@@ -5,7 +5,7 @@ import pika
 import ConfigParser
 import json
 #rabbitmq 生产者
-class MyProduct():
+class RQProduct():
     def __init__(self,host,port,queue):
         connection = pika.BlockingConnection(pika.ConnectionParameters(host,int(port)))
         self.channel = connection.channel()
@@ -26,7 +26,7 @@ if __name__ == "__main__":
     port = conf.getint("rabbitmq","port")
     queue = conf.get("rabbitmq","queue")
 #    product = MyProduct("127.0.0.1",5672,"url_queue5")
-    product = MyProduct(host,port,queue)
+    product = RQProduct(host,port,queue)
     message = {"url":"http://finance.sina.com.cn/china/gncj/2017-04-13/doc-ifyeimqc3353066.shtml"}
     message = json.dumps(message)
     product.product(message)

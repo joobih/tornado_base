@@ -41,7 +41,7 @@ class RQConsumer():
             url = urls["url"]
             spider = SinaSpider(url)
             data = spider.get_html()
-            self.db.update({"url":url},{"$set":{"title":data["title"],"date":datetime.now()}})
+            self.db.update({"url":url},{"$set":{"title":data["title"],"date":datetime.now()},"is_over":0})
             print data
             #消息处理完成可以通知到队列完成了处理
             ch.basic_ack(delivery_tag = method.delivery_tag)

@@ -14,6 +14,8 @@ sudo pip install -U pip
 sudo pip install tornado
 sudo pip install thrift
 sudo pip install pika
+sudo pip install bs4
+sudo pip install pymongo
 
 #安装pyhs2
 sudo apt-get install libsasl2-dev
