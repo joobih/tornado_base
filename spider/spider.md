@@ -265,10 +265,10 @@
 	    driver.get(url)
 	    username = driver.find_element_by_id("userName")
 	    username.clear()
-	    username.send_keys("15528281963")
+	    username.send_keys("username")
 	    password = driver.find_element_by_id("userPwd")
 	    password.clear()
-	    password.send_keys("554682")
+	    password.send_keys("password")
 	    submit = driver.find_element_by_id("login1").click()
 	    time.sleep(10)
 	    win = driver.current_window_handle
