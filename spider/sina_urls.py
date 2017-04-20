@@ -3,6 +3,7 @@
 import sys
 sys.path.append("../queues")
 sys.path.append("../db")
+sys.path.append("../submodules")
 import requests
 import json
 import re
@@ -12,6 +13,8 @@ from bs4 import BeautifulSoup
 from rb_product import RQProduct
 from orm_mongo import MyMongoDB
 import ConfigParser
+
+from Common.useful import paser_urls
 
 class SinaSpiderUrl():
     def __init__(self,conf):
@@ -30,16 +33,15 @@ class SinaSpiderUrl():
             print url
             r = s.get(url)
             html = r.content
+            print html[:500]
             a = html.find("(")
             b = html.rfind(")")
             html = html[a:b]
             c = html.rfind(")")
             html = html[1:c-1]
             html = html.replace('\/','/').replace('\\\/','/')
-            urlParttern = r'https?://[\w\-\/]+[\.[\w\-\/]+]*'
-            pattern = re.compile(urlParttern)
-            match_url = re.findall(pattern,html,0)
-            return match_url
+            urls = paser_urls(html)
+            return urls
         except Exception,e:
             print "occure a exception:{}".format(e)
             return []

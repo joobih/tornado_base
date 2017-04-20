@@ -4,4 +4,9 @@ dbg
 *.conf
 *.cfg
 *.[bB]
+*.png
+*.jpg
+*.jpeg
+*.bmp
+*.gif
 
