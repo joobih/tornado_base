@@ -9,6 +9,8 @@ import time
     table urls:
 
     {
+        news_type       String,         --新闻类型(股票，财经)
+        news_web        String,         --抓取网站(新浪，网易等)
         url             String,         --url网页地址
         is_over         Integer,        --是否抓去过的url ,-1 -- 未被抓取； 0 -- 已经抓取完成; -2 -- url不是新闻地址 
         content         String,         --新闻内容

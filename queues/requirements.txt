@@ -1,8 +1,0 @@
-backports-abc (0.5)
-certifi (2017.1.23)
-pip (9.0.1)
-setuptools (20.7.0)
-singledispatch (3.4.0.3)
-six (1.10.0)
-wheel (0.29.0)
-pika (0.10.0)
