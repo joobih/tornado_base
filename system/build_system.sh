@@ -2,6 +2,13 @@
 
 sudo apt-get update
 
+#安装mono
+#这个程序可以用来模拟运行windows环境的程序
+
+sudo apt-get install mono-complete
+#下载好Fiddler for Mono版本
+mono Fiddler.exe
+
 #安装vim
 sudo cp vim74_new.tar.gz /opt
 sudo cd /opt

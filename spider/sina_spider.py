@@ -94,7 +94,7 @@ if __name__ == "__main__":
         "mongo_collection":mongo_collection
     }
 
-    from rb_consumer import TestConsumer
+    from Common.queues.rb_consumer import TestConsumer
     TestConsumer(MyRQConsumer,queue,host,port,kwags)
-#    from rb_consumer import multi_consumer
+#    from Common.queues.rb_consumer import multi_consumer
 #    multi_consumer(MyRQConsumer,queue,host,port,kwags)
