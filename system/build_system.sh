@@ -7,7 +7,7 @@ sudo apt-get update
 
 sudo apt-get install mono-complete
 #下载好Fiddler for Mono版本
-mono Fiddler.exe
+#mono Fiddler.exe
 
 #安装vim
 sudo cp vim74_new.tar.gz /opt
@@ -26,7 +26,7 @@ sudo apt-get install python=2.7.12
 sudo apt-get install python-pip
 sudo pip install -U pip
 sudo pip install tornado
-sudo pip install thrift
+sudo pip install thrift-compiler
 sudo pip install pika
 sudo pip install bs4
 sudo pip install pymongo
